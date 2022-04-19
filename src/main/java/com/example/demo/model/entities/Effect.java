@@ -1,23 +1,18 @@
 package com.example.demo.model.entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
 @Table(name = "effects")
-public class Effect {
+public class Effect  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "effect_id")
+    @Column(name = "effect_id", columnDefinition = "serial")
     private Long id;
 
     @Column(columnDefinition = "TEXT")

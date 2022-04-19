@@ -27,7 +27,7 @@ dependencies {
 	implementation 'org.springframework:spring-orm'
 	implementation 'org.postgresql:postgresql'
 	implementation 'javax.validation:validation-api'
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'

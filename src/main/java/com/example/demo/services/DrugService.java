@@ -8,24 +8,24 @@ import java.util.stream.Collectors;
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.contract.DrugContract;
 import com.example.demo.exceptions.NotFoundException;
-import com.example.demo.model.entities.ActingSubstance;
 import com.example.demo.model.entities.Drug;
 import com.example.demo.model.entities.Interaction;
-import com.example.demo.repositories.ActingSubstanceRepository;
-import com.example.demo.repositories.DrugRepository;
+import com.example.demo.repositories.*;
 import com.example.demo.util.OffsetBasedPageRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class DrugService implements IDrugService {
     @Autowired
+    private ActingSubstanceRepository actingSubstanceRepository;
+    @Autowired
     private DrugRepository repository;
 
-    @Autowired
-    private ActingSubstanceRepository actingSubstanceRepository;
 
     @Override
     public List<Drug> getPage(int offset, int limit) {
@@ -50,9 +50,7 @@ public class DrugService implements IDrugService {
         var interaction = drugOpt.get().getInteractions().stream()
                 .filter(i -> i.getActingSubstance().getId().equals(substanceId)).findFirst();
         var res = new ArrayList<Interaction>();
-        if (interaction.isPresent()) {
-            res.add(interaction.get());
-        }
+        interaction.ifPresent(res::add);
 
         if (cont) {
             var substance = this.actingSubstanceRepository.findById(substanceId);
@@ -71,13 +69,35 @@ public class DrugService implements IDrugService {
     @Override
     public List<ActingSubstanceOrDrugBriefContract> getBriefDrugs(String search) {
         var drugs = repository.findAllByInpName(search, null).stream()
-                .map((drug) -> new ActingSubstanceOrDrugBriefContract(drug));
+                .map(ActingSubstanceOrDrugBriefContract::new);
         return drugs.collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public Drug createDrug(DrugContract drugContract) {
-        Drug drug = drugContract.toDrug();
+        Drug drug = new Drug();
+
+        drug.setActing_substance(drugContract.getActing_substance().toEntity());
+        drug.getActing_substance().setDrug(drug);
+        drug.setContraindications(drugContract.getContraindications());
+        drug.setCreatinine_based_dosages(drugContract.getLiverDosageInfo().getCreatinine_based_dosages().stream()
+                .map(v -> v.toEntity()).collect(Collectors.toSet()));
+        drug.setDosages(drugContract.getDosages().stream().map(v -> v.toEntity()).collect(Collectors.toSet()));
+        drug.setDose_change_prerequisites(drugContract.getLiverDosageInfo().getDose_change_prerequisites());
+        drug.setFda_category(drugContract.getPregnancy_info().getFda_category());
+        drug.setFirst_line(drugContract.getFirst_line());
+        drug.setFood_comment(drugContract.getFoodInfo().getComment());
+        drug.setFood_recommendations(drugContract.getFoodInfo().getRecommendations());
+        drug.setInp_name(drugContract.getInp_name());
+        drug.setInteractions(drugContract.getInteractions().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
+        drug.setPharm_dynamics(drugContract.getPharm_dynamics());
+        drug.setPharm_kinetics(drugContract.getPharm_kinetics().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
+        drug.setPregnancy_additional_info(drugContract.getPregnancy_info().getAdditional_info());
+        drug.setPregnancy_usage(drugContract.getPregnancy_info().getUsage());
+        drug.setRole_in_treatment(drugContract.getRole_in_treatment());
+        drug.setSide_effects(drugContract.getSide_effects().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
+        drug.setTrade_names(drugContract.getTrade_names().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
         return repository.save(drug);
     }
 }

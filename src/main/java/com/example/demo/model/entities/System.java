@@ -1,5 +1,8 @@
 package com.example.demo.model.entities;
 
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@DynamicUpdate
 @Table(name = "systems")
 public class System {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "SERIAL")
     private Long id;
 
     @Column(columnDefinition = "TEXT")

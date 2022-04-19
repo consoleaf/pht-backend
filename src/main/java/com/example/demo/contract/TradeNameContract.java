@@ -41,4 +41,12 @@ public class TradeNameContract implements Serializable {
     private Long id;
     private String trade_name;
     private String pharm_form;
+
+    public TradeName toEntity() {
+        TradeName tradeName = new TradeName();
+        tradeName.setTrade_name(this.trade_name);
+        tradeName.setId(this.id);
+        tradeName.setPharm_form(this.pharm_form);
+        return tradeName;
+    }
 }

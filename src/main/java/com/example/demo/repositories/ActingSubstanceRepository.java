@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActingSubstanceRepository extends PagingAndSortingRepository<ActingSubstance, Long> {
-    @Query("SELECT d FROM ActingSubstance d WHERE lower(name) LIKE lower(concat('%', :inp_name, '%'))")
+    @Query("SELECT d FROM ActingSubstance d WHERE lower(d.name) LIKE lower(concat('%', :inp_name, '%'))")
     List<ActingSubstance> findAllByInpName(String inp_name, Sort sort);
 
     Optional<ActingSubstance> findByDrugId(Long drugId);

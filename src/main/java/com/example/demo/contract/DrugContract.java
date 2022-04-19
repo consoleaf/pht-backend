@@ -9,6 +9,8 @@ import com.example.demo.model.entities.Drug;
 public class DrugContract implements Serializable {
     private Long id;
 
+    private ActingSubstanceContract acting_substance;
+
     private Boolean first_line;
     private String inp_name;
     private List<TradeNameContract> trade_names;
@@ -147,6 +149,7 @@ public class DrugContract implements Serializable {
     }
 
     private DrugContract(Drug drug) {
+        this.acting_substance = new ActingSubstanceContract(drug.getActing_substance());
         this.contraindications = drug.getContraindications();
         this.dosages = drug.getDosages().stream().map(dosage -> new DosageContract(dosage))
                 .collect(Collectors.toList());
@@ -168,26 +171,11 @@ public class DrugContract implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public Drug toDrug() {
-        Drug drug = new Drug();
-        drug.setContraindications(contraindications);
-        drug.setCreatinine_based_dosages(this.liverDosageInfo.getCreatinine_based_dosages().stream()
-                .map(v -> v.toEntity()).collect(Collectors.toSet()));
-        drug.setDosages(this.dosages.stream().map(v -> v.toEntity()).collect(Collectors.toSet()));
-        drug.setDose_change_prerequisites(liverDosageInfo.getDose_change_prerequisites());
-        drug.setFda_category(pregnancy_info.getFda_category());
-        drug.setFirst_line(first_line);
-        drug.setFood_comment(foodInfo.getComment());
-        drug.setFood_recommendations(foodInfo.getRecommendations());
-        drug.setId(id);
-        drug.setInp_name(inp_name);
-        drug.setInteractions(interactions.stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
-        drug.setPharm_dynamics(pharm_dynamics);
-        drug.setPharm_kinetics(pharm_kinetics.stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
-        drug.setPregnancy_additional_info(pregnancy_info.getAdditional_info());
-        drug.setPregnancy_usage(pregnancy_info.getUsage());
-        drug.setRole_in_treatment(role_in_treatment);
-        drug.setSide_effects(side_effects.stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
-        return drug;
+    public ActingSubstanceContract getActing_substance() {
+        return acting_substance;
+    }
+
+    public void setActing_substance(ActingSubstanceContract acting_substance) {
+        this.acting_substance = acting_substance;
     }
 }

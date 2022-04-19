@@ -1,5 +1,8 @@
 package com.example.demo.model.entities;
 
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@DynamicUpdate
 @Table(name = "trade_names")
 public class TradeName {
     @Override
@@ -51,6 +55,7 @@ public class TradeName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "SERIAL")
     private Long id;
 
     @Column(columnDefinition = "TEXT")

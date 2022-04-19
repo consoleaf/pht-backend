@@ -1,5 +1,8 @@
 package com.example.demo.model.entities;
 
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@DynamicUpdate
 @Table(name = "side_effects")
 public class SideEffect {
     @Id
