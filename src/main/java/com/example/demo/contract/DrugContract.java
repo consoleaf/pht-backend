@@ -111,20 +111,20 @@ public class DrugContract implements Serializable {
         this.pregnancy_info = pregnancy_info;
     }
 
-    public LiverDosageInfoContract getLiverDosageInfo() {
-        return liverDosageInfo;
+    public LiverDosageInfoContract getLiver_dosage_info() {
+        return liver_dosage_info;
     }
 
-    public void setLiverDosageInfo(LiverDosageInfoContract liverDosageInfo) {
-        this.liverDosageInfo = liverDosageInfo;
+    public void setLiver_dosage_info(LiverDosageInfoContract liver_dosage_info) {
+        this.liver_dosage_info = liver_dosage_info;
     }
 
-    public FoodInfoContract getFoodInfo() {
-        return foodInfo;
+    public FoodInfoContract getFood_info() {
+        return food_info;
     }
 
-    public void setFoodInfo(FoodInfoContract foodInfo) {
-        this.foodInfo = foodInfo;
+    public void setFood_info(FoodInfoContract food_info) {
+        this.food_info = food_info;
     }
 
     private String pharm_dynamics;
@@ -137,8 +137,8 @@ public class DrugContract implements Serializable {
     private List<InteractionContract> interactions;
 
     private PregnancyInfoContract pregnancy_info;
-    private LiverDosageInfoContract liverDosageInfo;
-    private FoodInfoContract foodInfo;
+    private LiverDosageInfoContract liver_dosage_info;
+    private FoodInfoContract food_info;
 
     public static DrugContract fromDrug(Drug drug) {
         var res = new DrugContract(drug);
@@ -151,23 +151,23 @@ public class DrugContract implements Serializable {
     private DrugContract(Drug drug) {
         this.acting_substance = new ActingSubstanceContract(drug.getActing_substance());
         this.contraindications = drug.getContraindications();
-        this.dosages = drug.getDosages().stream().map(dosage -> new DosageContract(dosage))
+        this.dosages = drug.getDosages().stream().map(DosageContract::new)
                 .collect(Collectors.toList());
         this.first_line = drug.getFirst_line();
-        this.foodInfo = new FoodInfoContract(drug);
+        this.food_info = new FoodInfoContract(drug);
         this.id = drug.getId();
         this.inp_name = drug.getInp_name();
-        this.interactions = drug.getInteractions().stream().map(interaction -> new InteractionContract(interaction))
+        this.interactions = drug.getInteractions().stream().map(InteractionContract::new)
                 .collect(Collectors.toList());
-        this.liverDosageInfo = new LiverDosageInfoContract(drug);
+        this.liver_dosage_info = new LiverDosageInfoContract(drug);
         this.pharm_dynamics = drug.getPharm_dynamics();
-        this.pharm_kinetics = drug.getPharm_kinetics().stream().map(kin -> new PharmKineticContract(kin))
+        this.pharm_kinetics = drug.getPharm_kinetics().stream().map(PharmKineticContract::new)
                 .collect(Collectors.toList());
         this.pregnancy_info = new PregnancyInfoContract(drug);
         this.role_in_treatment = drug.getRole_in_treatment();
-        this.side_effects = drug.getSide_effects().stream().map(eff -> new SideEffectContract(eff))
+        this.side_effects = drug.getSide_effects().stream().map(SideEffectContract::new)
                 .collect(Collectors.toList());
-        this.trade_names = drug.getTrade_names().stream().map(nam -> new TradeNameContract(nam))
+        this.trade_names = drug.getTrade_names().stream().map(TradeNameContract::new)
                 .collect(Collectors.toList());
     }
 

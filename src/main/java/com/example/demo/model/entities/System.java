@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table(name = "systems")
 public class System {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     @Column(columnDefinition = "TEXT")
@@ -62,10 +62,7 @@ public class System {
         } else if (!id.equals(other.id))
             return false;
         if (system == null) {
-            if (other.system != null)
-                return false;
-        } else if (!system.equals(other.system))
-            return false;
-        return true;
+            return other.system == null;
+        } else return system.equals(other.system);
     }
 }

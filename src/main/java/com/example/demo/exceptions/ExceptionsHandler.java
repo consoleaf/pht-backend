@@ -24,4 +24,11 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(new ErrorResponse(e), new HttpHeaders(),
                                 HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorResponse>
+  handleBadRequest(BadRequestException e, WebRequest request) {
+    return new ResponseEntity<>(new ErrorResponse(e), new HttpHeaders(),
+            HttpStatus.BAD_REQUEST);
+  }
 }

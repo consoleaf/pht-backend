@@ -18,8 +18,8 @@ import java.util.Objects;
 @Table(name = "pharm_kinetic")
 public class PharmKinetic  {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     @Column(columnDefinition = "TEXT")

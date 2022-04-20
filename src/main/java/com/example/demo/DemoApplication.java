@@ -12,9 +12,4 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
-
-	@EventListener(ApplicationReadyEvent.class)
-	public static void afterApplicationReady() {
-
-	}
 }

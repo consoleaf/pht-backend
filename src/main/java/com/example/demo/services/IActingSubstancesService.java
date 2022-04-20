@@ -7,11 +7,13 @@ import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.model.entities.ActingSubstance;
 
 public interface IActingSubstancesService {
-    public List<ActingSubstance> getPage(int offset, int limit);
+    List<ActingSubstance> getPage(int offset, int limit);
 
-    public ActingSubstance getById(Long id);
+    ActingSubstance getById(Long id);
 
-    public List<ActingSubstanceOrDrugBriefContract> getBrief(String search);
+    List<ActingSubstanceOrDrugBriefContract> getBrief(String search);
 
-    public ActingSubstance createDrug(ActingSubstanceContract drug);
+    ActingSubstance createSubstance(ActingSubstanceContract drug);
+
+    ActingSubstance updateOrCreate(ActingSubstanceContract contract);
 }

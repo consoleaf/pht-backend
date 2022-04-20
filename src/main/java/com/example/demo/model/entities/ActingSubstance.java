@@ -3,6 +3,8 @@ package com.example.demo.model.entities;
 import javax.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.Set;
+
 @Entity
 @DynamicUpdate
 @Table(name = "acting_substances")
@@ -16,6 +18,9 @@ public class ActingSubstance {
 
   @OneToOne(mappedBy = "acting_substance", cascade = CascadeType.ALL)
   private Drug drug;
+
+  @OneToMany(mappedBy = "actingSubstance", cascade = CascadeType.MERGE)
+  private Set<Interaction> interactions;
 
   public Drug getDrug() { return drug; }
 
@@ -49,11 +54,8 @@ public class ActingSubstance {
     } else if (!id.equals(other.id))
       return false;
     if (name == null) {
-      if (other.name != null)
-        return false;
-    } else if (!name.equals(other.name))
-      return false;
-    return true;
+      return other.name == null;
+    } else return name.equals(other.name);
   }
 
   public String getName() { return name; }
@@ -61,4 +63,11 @@ public class ActingSubstance {
   public void setName(String name) { this.name = name; }
 
 
+  public Set<Interaction> getInteractions() {
+    return interactions;
+  }
+
+  public void setInteractions(Set<Interaction> interactions) {
+    this.interactions = interactions;
+  }
 }

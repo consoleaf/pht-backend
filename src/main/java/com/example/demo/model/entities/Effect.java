@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Table(name = "effects")
 public class Effect  {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "effect_id", columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="effect_id")
     private Long id;
 
     @Column(columnDefinition = "TEXT")
@@ -71,10 +71,7 @@ public class Effect  {
         } else if (!effect.equals(other.effect))
             return false;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 }

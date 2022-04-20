@@ -24,7 +24,7 @@ INSERT INTO public.acting_substances (name) VALUES ('Пиразинамид');
 INSERT INTO public.acting_substances (name) VALUES ('Рифампицин');
 INSERT INTO public.acting_substances (name) VALUES ('Этамбутол');
 INSERT INTO public.acting_substances (name) VALUES ('Пробенецид');
-INSERT INTO public.drugs (contraindications, dose_change_prerequisites, fda_category, first_line, food_comment, food_recommendations, inp_name, pharm_dynamics, pregnancy_additional_info, pregnancy_usage, role_in_treatment) VALUES ('Индивидуальная непереносимость препарата.
+INSERT INTO public.drugs (acting_substance, contraindications, dose_change_prerequisites, fda_category, first_line, food_comment, food_recommendations, inp_name, pharm_dynamics, pregnancy_additional_info, pregnancy_usage, role_in_treatment) VALUES (1, 'Индивидуальная непереносимость препарата.
 Эпилепсия.
 Тяжелые психозы.
 Склонность к судорожным припадкам.
@@ -38,7 +38,7 @@ INSERT INTO public.drugs (contraindications, dose_change_prerequisites, fda_cate
 При проведении терапии определение трансаминаз ежемесячно', 'Следует применять только в тех случаях, когда предполагаемая польза для матери превышает потенциальный риск для плода в дозе не более 10 мг/кг.', 'Лечение и профилактика туберкулеза различной локализации у взрослых и детей.
 Длительность приема не ограничена.
 ');
-INSERT INTO public.drugs (contraindications, dose_change_prerequisites, fda_category, first_line, food_comment, food_recommendations, inp_name, pharm_dynamics, pregnancy_additional_info, pregnancy_usage, role_in_treatment) VALUES ('Гиперчувствительность ко всем компонентам, входящим в состав препарата; заболевания печени; подагра; гиперурикемия; грудное вскармливание; детский возраст до 3-x лет.
+INSERT INTO public.drugs (acting_substance, contraindications, dose_change_prerequisites, fda_category, first_line, food_comment, food_recommendations, inp_name, pharm_dynamics, pregnancy_additional_info, pregnancy_usage, role_in_treatment) VALUES (7, 'Гиперчувствительность ко всем компонентам, входящим в состав препарата; заболевания печени; подагра; гиперурикемия; грудное вскармливание; детский возраст до 3-x лет.
 С осторожностью: сахарный диабет.', 'Не применяется', 'С', true, 'Запивать небольшим количеством воды.', 'Внутрь, во время или после еды, один раз в день.', 'Пиразинамид', 'Пиразинамид действует на внутриклеточно расположенные Mycobacterium tuberculosis. В зависимости от концентрации и чувствительности может оказывать бактериостатическое или бактерицидное действие. По туберкулостатической активности более активен, чем аминосалициловая кислота, хотя уступает изониазиду, стрептомицину, рифампицину. Пиразинамид хорошо проникает в очаги туберкулезного поражения. Его антибактериальная активность не снижается в кислой среде казеозных масс, в связи с чем его часто назначают при казеозном лимфадените, туберкуломе и казеозно-пневмонических процессах. В ходе лечения возможно развитие резистентности, вероятность развития которой снижает комбинирование с другими противотуберкулезными препаратами.', 'Возможно применение при резистентных формах туберкулёза и у ВИЧ инфицированных беременных.
 ', 'Данные на беременных очень малочисленны. Использование при беременности рекомендуется в случаях активного процесса', ' начиная со II триместра');
 INSERT INTO public.creatinine_dosages (creatinine_clearance, dosage_fraction, drug_id) VALUES ('>50 мл/мин', '100% каждые 24 ч', 1);

@@ -29,7 +29,7 @@ public class DrugsController {
     return new ResponseEntity<>(drugs, HttpStatus.OK);
   }
 
-  @GetMapping("/{drugId}")
+  @GetMapping(value = "/{drugId}", produces = {"application/json;charset=cp1251", "*/*;charset=cp1251"})
   public ResponseEntity<DrugContract> getDrugById(@PathVariable("drugId") Long drugId) {
     var drug = drugService.getById(drugId);
     return new ResponseEntity<>(DrugContract.fromDrug(drug), HttpStatus.OK);
@@ -42,7 +42,7 @@ public class DrugsController {
 
   @PutMapping
   public ResponseEntity<DrugContract> updateDrug(@RequestBody DrugContract drugContract) {
-    return new ResponseEntity<>(DrugContract.fromDrug(drugService.createDrug(drugContract)), HttpStatus.CREATED);
+    return new ResponseEntity<>(DrugContract.fromDrug(drugService.updateDrug(drugContract)), HttpStatus.CREATED);
   }
 
   @GetMapping("/brief")
@@ -55,8 +55,8 @@ public class DrugsController {
   public ResponseEntity<List<InteractionContract>> getInteraction(@PathVariable("drugId") Long drugId,
       @PathVariable("substanceId") Long substanceId) {
     if (drugId == -1 || substanceId == -1)
-      return new ResponseEntity<List<InteractionContract>>(new ArrayList<InteractionContract>(), HttpStatus.OK);
-    var res = drugService.getInteraction(drugId, substanceId).stream().map(i -> new InteractionContract(i))
+      return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+    var res = drugService.getInteraction(drugId, substanceId).stream().map(InteractionContract::new)
         .collect(Collectors.toList());
     return new ResponseEntity<>(res, HttpStatus.OK);
   }

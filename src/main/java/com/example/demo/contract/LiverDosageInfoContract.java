@@ -13,7 +13,7 @@ public class LiverDosageInfoContract implements Serializable {
     public LiverDosageInfoContract(Drug drug) {
         setDose_change_prerequisites(drug.getDose_change_prerequisites());
         setCreatinine_based_dosages(drug.getCreatinine_based_dosages().stream()
-                .map(t -> new CreatinineBasedDosageContract(t)).collect(Collectors.toList()));
+                .map(CreatinineBasedDosageContract::new).collect(Collectors.toList()));
     }
 
     public String getDose_change_prerequisites() {

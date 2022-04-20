@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Table(name = "dosages")
 public class Dosage  {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     private Boolean adult;
@@ -63,11 +63,8 @@ public class Dosage  {
         } else if (!max_daily_dose.equals(other.max_daily_dose))
             return false;
         if (pharm_form == null) {
-            if (other.pharm_form != null)
-                return false;
-        } else if (!pharm_form.equals(other.pharm_form))
-            return false;
-        return true;
+            return other.pharm_form == null;
+        } else return pharm_form.equals(other.pharm_form);
     }
 
     public String getMax_daily_dose() {

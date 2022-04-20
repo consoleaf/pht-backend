@@ -1,12 +1,11 @@
 package com.example.demo.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.contract.DrugContract;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.model.entities.Drug;
 import com.example.demo.model.entities.Interaction;
@@ -25,6 +24,9 @@ public class DrugService implements IDrugService {
     private ActingSubstanceRepository actingSubstanceRepository;
     @Autowired
     private DrugRepository repository;
+
+    @Autowired
+    private IActingSubstancesService actingSubstancesService;
 
 
     @Override
@@ -75,29 +77,94 @@ public class DrugService implements IDrugService {
 
     @Transactional
     @Override
-    public Drug createDrug(DrugContract drugContract) {
-        Drug drug = new Drug();
+    public Drug updateDrug(DrugContract drugContract) {
+        Drug drug = repository.findById(Optional.ofNullable(drugContract.getId()).orElseThrow(BadRequestException::new)).orElseThrow(BadRequestException::new);
 
-        drug.setActing_substance(drugContract.getActing_substance().toEntity());
-        drug.getActing_substance().setDrug(drug);
-        drug.setContraindications(drugContract.getContraindications());
-        drug.setCreatinine_based_dosages(drugContract.getLiverDosageInfo().getCreatinine_based_dosages().stream()
-                .map(v -> v.toEntity()).collect(Collectors.toSet()));
-        drug.setDosages(drugContract.getDosages().stream().map(v -> v.toEntity()).collect(Collectors.toSet()));
-        drug.setDose_change_prerequisites(drugContract.getLiverDosageInfo().getDose_change_prerequisites());
+        // Refresh fields
+        updateDrugFields(drugContract, drug);
+
+        // TODO: Refresh relationships and related entities
+        drug.getDosages();
+        drug.getInteractions();
+        drug.getActing_substance();
+        drug.getCreatinine_based_dosages();
+        drug.getPharm_kinetics();
+        drug.getTrade_names();
+        drug.getSide_effects();
+
+        return repository.save(drug);
+    }
+
+    private void updateDrugFields(DrugContract drugContract, Drug drug) {
+        drug.setDose_change_prerequisites(drugContract.getLiver_dosage_info().getDose_change_prerequisites());
         drug.setFda_category(drugContract.getPregnancy_info().getFda_category());
         drug.setFirst_line(drugContract.getFirst_line());
-        drug.setFood_comment(drugContract.getFoodInfo().getComment());
-        drug.setFood_recommendations(drugContract.getFoodInfo().getRecommendations());
+        drug.setFood_comment(drugContract.getFood_info().getComment());
+        drug.setFood_recommendations(drugContract.getFood_info().getRecommendations());
         drug.setInp_name(drugContract.getInp_name());
-        drug.setInteractions(drugContract.getInteractions().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
+        drug.setContraindications(drugContract.getContraindications());
         drug.setPharm_dynamics(drugContract.getPharm_dynamics());
-        drug.setPharm_kinetics(drugContract.getPharm_kinetics().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
         drug.setPregnancy_additional_info(drugContract.getPregnancy_info().getAdditional_info());
         drug.setPregnancy_usage(drugContract.getPregnancy_info().getUsage());
         drug.setRole_in_treatment(drugContract.getRole_in_treatment());
-        drug.setSide_effects(drugContract.getSide_effects().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
-        drug.setTrade_names(drugContract.getTrade_names().stream().map(i -> i.toEntity()).collect(Collectors.toSet()));
+    }
+
+    @Transactional
+    @Override
+    public Drug createDrug(DrugContract drugContract) {
+        Drug drug = repository.findById(Optional.ofNullable(drugContract.getId()).orElse(-1L)).orElse(new Drug());
+
+        updateDrugFields(drugContract, drug);
+
+        drug.setActing_substance(drugContract.getActing_substance().toEntity());
+        drug.getActing_substance().setDrug(drug);
+
+        if (drug.getCreatinine_based_dosages() == null) drug.setCreatinine_based_dosages(new HashSet<>());
+        drug.getCreatinine_based_dosages().clear();
+        drug.getCreatinine_based_dosages().addAll(drugContract.getLiver_dosage_info().getCreatinine_based_dosages().stream()
+                .map(v -> {
+                    var entity = v.toEntity();
+                    entity.setDrug(drug);
+                    return entity;
+                }).collect(Collectors.toSet()));
+        if (drug.getDosages() == null) drug.setDosages(new HashSet<>());
+        drug.getDosages().clear();
+        drug.getDosages().addAll(drugContract.getDosages().stream().map(v -> {
+            var entity = v.toEntity();
+            entity.setDrug(drug);
+            return entity;
+        }).collect(Collectors.toSet()));
+        if (drug.getInteractions() == null) drug.setInteractions(new HashSet<>());
+        drug.getInteractions().clear();
+        drug.getInteractions().addAll(drugContract.getInteractions().stream().map(i -> {
+            var entity = i.toEntity();
+            entity.setDrug(drug);
+            return entity;
+        }).collect(Collectors.toSet()));
+        drug.setPharm_dynamics(drugContract.getPharm_dynamics());
+        if (drug.getPharm_kinetics() == null) drug.setPharm_kinetics(new HashSet<>());
+        drug.getPharm_kinetics().clear();
+        drug.getPharm_kinetics().addAll(drugContract.getPharm_kinetics().stream().map(i -> {
+            var entity = i.toEntity();
+            entity.setDrug(drug);
+            return entity;
+        }).collect(Collectors.toSet()));
+        if (drug.getSide_effects() == null) drug.setSide_effects(new HashSet<>());
+        drug.getSide_effects().clear();
+        drug.getSide_effects().addAll(drugContract.getSide_effects().stream().map(i -> {
+            var entity = i.toEntity();
+            entity.setDrug(drug);
+            return entity;
+        }).collect(Collectors.toSet()));
+        if (drug.getTrade_names() == null) drug.setTrade_names(new HashSet<>());
+        drug.getTrade_names().clear();
+        drug.getTrade_names().addAll(drugContract.getTrade_names().stream().map(i -> {
+            var entity = i.toEntity();
+            entity.setDrug(drug);
+            return entity;
+        }).collect(Collectors.toSet()));
+        actingSubstanceRepository.save(drug.getActing_substance());
+        actingSubstanceRepository.saveAll(drug.getInteractions().stream().map(Interaction::getActingSubstance).collect(Collectors.toUnmodifiableSet()));
         return repository.save(drug);
     }
 }

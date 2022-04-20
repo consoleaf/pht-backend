@@ -46,16 +46,13 @@ public class TradeName {
         } else if (!pharm_form.equals(other.pharm_form))
             return false;
         if (trade_name == null) {
-            if (other.trade_name != null)
-                return false;
-        } else if (!trade_name.equals(other.trade_name))
-            return false;
-        return true;
+            return other.trade_name == null;
+        } else return trade_name.equals(other.trade_name);
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     @Column(columnDefinition = "TEXT")

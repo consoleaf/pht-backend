@@ -13,9 +13,12 @@ import com.example.demo.model.entities.Drug;
 import com.example.demo.repositories.ActingSubstanceRepository;
 import com.example.demo.util.OffsetBasedPageRequest;
 
+import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class ActingSubstancesService implements IActingSubstancesService {
@@ -37,13 +40,23 @@ public class ActingSubstancesService implements IActingSubstancesService {
     @Override
     public List<ActingSubstanceOrDrugBriefContract> getBrief(String search) {
         var substs = repository.findAllByInpName(search, null).stream()
-                .map((subst) -> new ActingSubstanceOrDrugBriefContract(subst));
+                .map(ActingSubstanceOrDrugBriefContract::new);
         return substs.collect(Collectors.toList());
     }
 
     @Override
-    public ActingSubstance createDrug(ActingSubstanceContract val) {
-        ActingSubstance drug = val.toEntity();
-        return repository.save(drug);
+    public ActingSubstance createSubstance(ActingSubstanceContract val) {
+        ActingSubstance substance = val.toEntity();
+        return repository.save(substance);
+    }
+
+    @Override
+    public ActingSubstance updateOrCreate(ActingSubstanceContract contract) {
+        ActingSubstance actingSubstance = repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(ActingSubstance::new);
+
+
+        Util.assignIfNotNull(contract::getName, actingSubstance::setName);
+
+        return actingSubstance;
     }
 }

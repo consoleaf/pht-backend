@@ -20,8 +20,8 @@ import javax.persistence.Table;
 @Table(name = "side_effects")
 public class SideEffect {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "side_effects")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     @ManyToMany(mappedBy = "sideEffects")
@@ -66,11 +66,8 @@ public class SideEffect {
         } else if (!id.equals(other.id))
             return false;
         if (system == null) {
-            if (other.system != null)
-                return false;
-        } else if (!system.equals(other.system))
-            return false;
-        return true;
+            return other.system == null;
+        } else return system.equals(other.system);
     }
 
     public Set<Effect> getEffects() {

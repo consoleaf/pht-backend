@@ -9,15 +9,16 @@ import javax.persistence.*;
 @Table(name = "interactions")
 public class Interaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column()
     private Long id;
 
     @Column(columnDefinition = "TEXT")
     private String kind_of_interaction;
     @Column(columnDefinition = "TEXT")
     private String clinical_consequence;
-    @ManyToOne(targetEntity = ActingSubstance.class)
+    @ManyToOne(targetEntity = ActingSubstance.class, cascade = CascadeType.MERGE)
+    @JoinColumn(name= "acting_substance_id")
     private ActingSubstance actingSubstance;
 
     public Long getId() {
@@ -64,11 +65,8 @@ public class Interaction {
         } else if (!id.equals(other.id))
             return false;
         if (kind_of_interaction == null) {
-            if (other.kind_of_interaction != null)
-                return false;
-        } else if (!kind_of_interaction.equals(other.kind_of_interaction))
-            return false;
-        return true;
+            return other.kind_of_interaction == null;
+        } else return kind_of_interaction.equals(other.kind_of_interaction);
     }
 
     public ActingSubstance getActingSubstance() {
