@@ -28,12 +28,14 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
     ) {
         var cookies = request.getCookies();
         String token = null;
-        for (var cookie:
-                cookies) {
-            if (cookie.getName().equals("token")) {
-                token = cookie.getValue();
+
+        if (cookies != null)
+            for (var cookie :
+                    cookies) {
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
+                }
             }
-        }
 
         if (handler instanceof HandlerMethod) {
             var roleGuard = ((HandlerMethod) handler).getMethodAnnotation(RoleGuard.class);

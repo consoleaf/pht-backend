@@ -94,7 +94,7 @@ INSERT INTO public.trade_names (pharm_form, trade_name, drug_id) VALUES ('таб
 INSERT INTO public.trade_names (pharm_form, trade_name, drug_id) VALUES ('таблетки', 'МАКРОЗИД®', 2);
 INSERT INTO public.trade_names (pharm_form, trade_name, drug_id) VALUES ('таблетки', 'Линамид ', 2);
 
-INSERT INTO public.users (password_hash, role, username) VALUES ('5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'ADMIN', 'admin');
-INSERT INTO public.users (password_hash, role, username) VALUES ('79f52b5b92498b00cb18284f1dcb466bd40ad559', 'MODERATOR', 'moderator');
+INSERT INTO public.users (password_hash, role, name, email) VALUES ('5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'ADMIN', 'admin', 'admin@example.ru');
+INSERT INTO public.users (password_hash, role, name, email) VALUES ('79f52b5b92498b00cb18284f1dcb466bd40ad559', 'MODERATOR', 'moderator', 'moderator@example.ru');
 
 SELECT TRUE;

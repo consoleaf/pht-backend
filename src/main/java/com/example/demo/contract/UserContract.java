@@ -8,14 +8,16 @@ public class UserContract {
     }
 
     public UserContract(User model) {
-        this.username = model.getUsername();
+        this.email = model.getEmail();
         this.id = model.getId();
         this.role = model.getRole();
+        this.name = model.getName();
     }
 
-    private String username;
+    private String email;
     private Long id;
 
+    private String name;
     private Role role;
 
     private String password;
@@ -28,12 +30,12 @@ public class UserContract {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Role getRole() {
@@ -50,5 +52,13 @@ public class UserContract {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

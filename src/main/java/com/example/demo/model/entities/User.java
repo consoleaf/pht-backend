@@ -17,7 +17,10 @@ public class User {
     Long id;
 
     @Column(columnDefinition = "TEXT")
-    String username;
+    String email;
+
+    @Column(columnDefinition = "TEXT")
+    String name;
 
     @Column(columnDefinition = "TEXT")
     String passwordHash;
@@ -37,8 +40,8 @@ public class User {
         return passwordHash;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public void setId(Long id) {
@@ -53,8 +56,8 @@ public class User {
         return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public void setPassword(String password) {
@@ -65,16 +68,24 @@ public class User {
         return getPasswordHash().equals(DigestUtils.sha1Hex(password.trim()));
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(role, user.role);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(passwordHash, user.passwordHash) && Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, passwordHash, role);
+        return Objects.hash(id, email, passwordHash, role);
     }
 }
