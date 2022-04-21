@@ -1,8 +1,9 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.contract.PharmKineticContract;
 import com.example.demo.model.entities.PharmKinetic;
 import com.example.demo.repositories.PharmKineticRepository;
+import com.example.demo.services.interfaces.IPharmKineticService;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

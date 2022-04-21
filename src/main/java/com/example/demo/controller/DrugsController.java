@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.demo.annotations.RoleGuard;
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.contract.DrugContract;
 import com.example.demo.contract.InteractionContract;
-import com.example.demo.model.entities.Interaction;
-import com.example.demo.services.IDrugService;
+import com.example.demo.model.enums.Role;
+import com.example.demo.services.interfaces.IDrugService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ public class DrugsController {
   }
 
   @PostMapping
+  @RoleGuard(roles= { Role.MODERATOR, Role.ADMIN })
   public ResponseEntity<DrugContract> createDrug(@RequestBody DrugContract drugContract) {
     return new ResponseEntity<>(DrugContract.fromDrug(drugService.createDrug(drugContract)), HttpStatus.CREATED);
   }

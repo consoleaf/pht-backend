@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.model.entities.ActingSubstance;
-import com.example.demo.services.IActingSubstancesService;
+import com.example.demo.services.interfaces.IActingSubstancesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

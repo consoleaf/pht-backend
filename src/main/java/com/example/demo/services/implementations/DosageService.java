@@ -1,9 +1,9 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.contract.DosageContract;
-import com.example.demo.model.entities.CreatinineBasedDosage;
 import com.example.demo.model.entities.Dosage;
 import com.example.demo.repositories.DosageRepository;
+import com.example.demo.services.interfaces.IDosageService;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

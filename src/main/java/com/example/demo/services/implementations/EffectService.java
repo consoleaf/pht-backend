@@ -1,9 +1,9 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.contract.EffectContract;
-import com.example.demo.model.entities.Dosage;
 import com.example.demo.model.entities.Effect;
 import com.example.demo.repositories.EffectRepository;
+import com.example.demo.services.interfaces.IEffectService;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

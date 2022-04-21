@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.contract.DrugContract;
-import com.example.demo.services.ActingSubstancesService;
-import com.example.demo.services.DrugService;
+import com.example.demo.services.implementations.ActingSubstancesService;
+import com.example.demo.services.implementations.DrugService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest
 class DrugsControllerTest {

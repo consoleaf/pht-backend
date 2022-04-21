@@ -1,13 +1,13 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
-import com.example.demo.contract.DosageContract;
 import com.example.demo.contract.DrugContract;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.model.entities.Drug;
 import com.example.demo.model.entities.Interaction;
 import com.example.demo.repositories.*;
+import com.example.demo.services.interfaces.*;
 import com.example.demo.util.OffsetBasedPageRequest;
 
 import java.util.*;
@@ -112,8 +112,8 @@ public class DrugService implements IDrugService {
     @Transactional
     public Drug updateDrug(DrugContract drugContract) {
         Drug drug = drugRepository.getById(Optional.ofNullable(drugContract.getId())
-                        .orElseThrow(BadRequestException::new))
-                .orElseThrow(BadRequestException::new);
+                        .orElseThrow(() -> new BadRequestException("You have to provide drug.id")))
+                .orElseThrow(NotFoundException::new);
 
         // Refresh fields
         updateDrugFields(drugContract, drug);

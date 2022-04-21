@@ -1,14 +1,14 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.contract.InteractionContract;
-import com.example.demo.model.entities.Effect;
 import com.example.demo.model.entities.Interaction;
 import com.example.demo.repositories.InteractionRepository;
+import com.example.demo.services.interfaces.IActingSubstancesService;
+import com.example.demo.services.interfaces.IInteractionService;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Optional;
 
