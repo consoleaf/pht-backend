@@ -9,6 +9,7 @@ import com.example.demo.annotations.RoleGuard;
 import com.example.demo.contract.ActingSubstanceOrDrugBriefContract;
 import com.example.demo.contract.UserContract;
 import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.exceptions.UnauthorizedException;
 import com.example.demo.model.entities.ActingSubstance;
 import com.example.demo.model.entities.User;
@@ -71,7 +72,7 @@ public class UserController {
     @PutMapping
     @RoleGuard(roles = { Role.ADMIN })
     public ResponseEntity<UserContract> updateUser(@RequestBody UserContract userContract) {
-        return new ResponseEntity<>(new UserContract(userService.createUser(userContract)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new UserContract(userService.updateUser(userContract)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{userId}")
@@ -82,10 +83,13 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @RoleGuard(roles = { Role.ADMIN, Role.MODERATOR})
     public ResponseEntity<UserContract> getCurrentUser(@CookieValue("token") String token) {
-        var uid = TokenStore.getUserIdByToken(token);
-        var user = userService.getById(uid).orElseThrow(UnauthorizedException::new);
-        return new ResponseEntity<>(new UserContract(user), HttpStatus.OK);
+        try {
+            var uid = TokenStore.getUserIdByToken(token);
+            var user = userService.getById(uid).orElseThrow(NotFoundException::new);
+            return new ResponseEntity<>(new UserContract(user), HttpStatus.OK);
+        } catch (UnauthorizedException e) {
+            throw new NotFoundException();
+        }
     }
 }

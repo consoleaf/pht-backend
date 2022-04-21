@@ -30,13 +30,13 @@ public class UserService implements IUserService {
         Util.assignIfNotNull(contract::getRole, user::setRole);
         Util.assignIfNotNull(contract::getName, user::setName);
 
-        return user;
+        return repository.save(user);
     }
 
     @Override
     public User authorize(UserContract contract) {
         User user = repository.findByEmail(contract.getEmail()).orElseThrow(NotFoundException::new);
-        if (!user.checkPassword(contract.getPassword())) throw new UnauthorizedException("Wrong password");
+        if (!user.checkPassword(contract.getPassword())) throw new BadRequestException("Wrong password");
         return user;
     }
 
