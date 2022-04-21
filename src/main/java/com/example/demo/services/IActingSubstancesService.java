@@ -15,5 +15,5 @@ public interface IActingSubstancesService {
 
     ActingSubstance createSubstance(ActingSubstanceContract drug);
 
-    ActingSubstance updateOrCreate(ActingSubstanceContract contract);
+    ActingSubstance updateOrCreate(ActingSubstanceContract contract, ActingSubstance entity);
 }

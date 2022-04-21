@@ -29,10 +29,16 @@ public class DrugsController {
     return new ResponseEntity<>(drugs, HttpStatus.OK);
   }
 
-  @GetMapping(value = "/{drugId}", produces = {"application/json;charset=cp1251", "*/*;charset=cp1251"})
+  @GetMapping(value = "/{drugId}")
   public ResponseEntity<DrugContract> getDrugById(@PathVariable("drugId") Long drugId) {
     var drug = drugService.getById(drugId);
     return new ResponseEntity<>(DrugContract.fromDrug(drug), HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/{drugId}")
+  public ResponseEntity<Object> deleteDrugById(@PathVariable("drugId") Long drugId) {
+    drugService.delete(drugId);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping

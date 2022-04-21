@@ -7,6 +7,7 @@ import com.example.demo.repositories.SideEffectRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class SideEffectService implements ISideEffectService {
     ISystemService systemService;
 
     @Override
+    @Transactional
     public SideEffect updateOrCreate(SideEffectContract contract) {
         SideEffect effect =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(SideEffect::new);

@@ -59,7 +59,7 @@ public class Drug {
   private String food_comment;
 
   @JoinColumn(name = "acting_substance", referencedColumnName = "id")
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = false)
   private ActingSubstance acting_substance;
 
   public Long getId() {

@@ -17,8 +17,8 @@ public class Interaction {
     private String kind_of_interaction;
     @Column(columnDefinition = "TEXT")
     private String clinical_consequence;
-    @ManyToOne(targetEntity = ActingSubstance.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name= "acting_substance_id")
+    @ManyToOne(targetEntity = ActingSubstance.class, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "acting_substance_id")
     private ActingSubstance actingSubstance;
 
     public Long getId() {

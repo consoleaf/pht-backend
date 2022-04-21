@@ -7,6 +7,7 @@ import com.example.demo.repositories.SystemRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class SystemService implements ISystemService {
     SystemRepository repository;
 
     @Override
+    @Transactional
     public System updateOrCreate(SystemContract contract) {
         System system =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(System::new);

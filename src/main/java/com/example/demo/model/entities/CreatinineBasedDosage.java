@@ -76,7 +76,7 @@ public class CreatinineBasedDosage {
     this.id = id;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL, optional = false)
+  @ManyToOne()
   @JoinColumn(name = "drug_id")
   private Drug drug;
 

@@ -6,6 +6,7 @@ import com.example.demo.repositories.PharmKineticRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class PharmKineticService implements IPharmKineticService {
     PharmKineticRepository repository;
 
     @Override
+    @Transactional
     public PharmKinetic updateOrCreate(PharmKineticContract contract) {
         PharmKinetic pharmKinetic =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(PharmKinetic::new);

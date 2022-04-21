@@ -7,6 +7,7 @@ import com.example.demo.repositories.EffectRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class EffectService implements IEffectService {
     EffectRepository repository;
 
     @Override
+    @Transactional
     public Effect updateOrCreate(EffectContract contract) {
         Effect effect =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(Effect::new);

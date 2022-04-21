@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,8 +18,7 @@ import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ActingSubstancesService implements IActingSubstancesService {
@@ -51,8 +51,15 @@ public class ActingSubstancesService implements IActingSubstancesService {
     }
 
     @Override
-    public ActingSubstance updateOrCreate(ActingSubstanceContract contract) {
-        ActingSubstance actingSubstance = repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(ActingSubstance::new);
+    @Transactional
+    public ActingSubstance updateOrCreate(ActingSubstanceContract contract, ActingSubstance entity) {
+        ActingSubstance actingSubstance = Objects.equals(entity.getId(), contract.getId())
+                ? entity :
+                repository
+                        .findById(
+                                Optional.ofNullable(contract.getId())
+                                        .orElse(-1L))
+                        .orElseGet(ActingSubstance::new);
 
 
         Util.assignIfNotNull(contract::getName, actingSubstance::setName);

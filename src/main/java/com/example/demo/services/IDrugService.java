@@ -22,4 +22,6 @@ public interface IDrugService {
     Drug createDrug(DrugContract drug);
 
   List<Interaction> getInteraction(Long drugId, Long substanceId);
+
+  void delete(Long drugId);
 }

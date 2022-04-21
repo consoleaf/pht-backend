@@ -7,6 +7,7 @@ import com.example.demo.repositories.InteractionRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class InteractionService implements IInteractionService {
     IActingSubstancesService actingSubstanceService;
 
     @Override
+    @Transactional
     public Interaction updateOrCreate(InteractionContract contract) {
         Interaction interaction =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(Interaction::new);
@@ -28,7 +30,7 @@ public class InteractionService implements IInteractionService {
         Util.assignIfNotNull(contract::getKind_of_interaction, interaction::setKind_of_interaction);
 
         Util.assignIfNotNull(contract::getActing_substance, (actingSubstanceContract -> {
-            var actingSubstance = actingSubstanceService.updateOrCreate(actingSubstanceContract);
+            var actingSubstance = actingSubstanceService.updateOrCreate(actingSubstanceContract, interaction.getActingSubstance());
             if (!interaction.getActingSubstance().getId().equals(actingSubstance.getId())) {
                 interaction.setActingSubstance(actingSubstance);
             }

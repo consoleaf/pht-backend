@@ -6,7 +6,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.util.Set;
 
 @Entity
-@DynamicUpdate
 @Table(name = "acting_substances")
 public class ActingSubstance {
   @Id
@@ -16,7 +15,7 @@ public class ActingSubstance {
 
   @Column(columnDefinition = "TEXT") private String name;
 
-  @OneToOne(mappedBy = "acting_substance", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "acting_substance")
   private Drug drug;
 
   @OneToMany(mappedBy = "actingSubstance", cascade = CascadeType.MERGE)

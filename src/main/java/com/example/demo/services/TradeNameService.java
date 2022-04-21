@@ -7,6 +7,7 @@ import com.example.demo.repositories.TradeNameRepository;
 import com.example.demo.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class TradeNameService implements ITradeNameService {
     TradeNameRepository repository;
 
     @Override
+    @Transactional
     public TradeName updateOrCreate(TradeNameContract contract) {
         TradeName tradeName =
                 repository.findById(Optional.ofNullable(contract.getId()).orElse(-1L)).orElseGet(TradeName::new);
